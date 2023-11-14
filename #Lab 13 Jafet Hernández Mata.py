@@ -1,4 +1,6 @@
 import tkinter as tk
+from tkinter import filedialog
+
 
 def leer_laberinto(ruta):
     laberinto = []
@@ -12,23 +14,28 @@ def leer_laberinto(ruta):
     return laberinto
 
 
+
 def mostrar_laberinto(ventana, laberinto):
     for fila in range(len(laberinto)):
         for col in range(len(laberinto[0])):
             if laberinto[fila][col] == 1:
-                color = "blue"
+                color = "white"
             else:
-                color = "red"
+                color = "black"
             etiqueta = tk.Label(ventana, text="", width=2, height=1, bg=color)
             etiqueta.grid(row=fila, column=col)
 
-if __name__ == "__main__":
-    ruta_archivo = 'C:/Users/jcia9/Escritorio/TEC/Algoritmos y estructuras de datos/laberinto.txt'  # Cambia esto con la ruta correcta de tu archivo
-    laberinto = leer_laberinto(ruta_archivo)
+def seleccionar_archivo():
+    ruta_archivo = filedialog.askopenfilename(filetypes=[("Archivos de texto", "*.txt")])
+    if ruta_archivo:
+        laberinto = leer_laberinto(ruta_archivo)
+        mostrar_laberinto(ventana, laberinto)
 
+if __name__ == "__main__":
     ventana = tk.Tk()
     ventana.title("Laberinto")
 
-    mostrar_laberinto(ventana, laberinto)
+    boton_seleccionar = tk.Button(ventana, text="Seleccionar Archivo", command=seleccionar_archivo)
+    boton_seleccionar.pack(pady=10)
 
     ventana.mainloop()
